@@ -8,16 +8,16 @@
                 background-image: url("airForce.jpg");
                 text-align: center;
                 font-family: fantasy;
-                width: 699px;
+                width: 899px;
             }
             div {
-                border: 1px solid black;
+                /* border: 1px solid black; */
                 display: inline-block;
                 margin: 5px;
                 width: 200px;
                 height: 200px;
                 line-height: 200px;
-                font-size: 40pt;
+                font-size: 30pt;
                 vertical-align: middle;
                 font-weight: bold;
                 text-shadow:
@@ -28,7 +28,7 @@
             }
         </style>
         <script>
-            let activated = new Set(["south", "east"]);
+            let activated = new Set(["south", "east", "clear", "unveil", "calm"]);
             const data = {
                 clockwise: {
                     language: "dwarf",
@@ -45,6 +45,11 @@
                     text: "ᚱᛁᛋᛠ",
                     translation: "Rise"
                 },
+                home: {
+                    language: "giant",
+                    text: "σπίτι",
+                    translation: "Home"
+                },
                 west: {
                     language: "dwarf",
                     text: "ᚹᛖᛥ",
@@ -60,6 +65,11 @@
                     text: "ᛖᚨᛥ",
                     translation: "East",
                 },
+                alarm: {
+                    language: "giant",
+                    text: "ξυπνητήρι",
+                    translation: "alarm"
+                },
                 counter: {
                     language: "dwarf",
                     text: "ᚹᛁᛞᛞᛖᚱ",
@@ -73,14 +83,42 @@
                 down: {
                     language: "dwarf",
                     text: "ᛋᛁᚾᛣ",
-                    translation: "Sink"
+                    translation: "Sink",
+                },
+                clear: {
+                    language: "giant",
+                    text: "καθαρίσετε",
+                    translation: "clear",
+                },
+                veil: {
+                    language: "giant",
+                    text: "πέπλο",
+                    translation: "veil",
+                },
+                unveil: {
+                    language: "giant",
+                    text: "αφαιρέσω",
+                    translation: "unveil",
+                },
+                storm: {
+                    language: "giant",
+                    text: "θύελλα",
+                    translation: "storm",
+                },
+                calm: {
+                    language: "giant",
+                    text: "ήρεμο",
+                    translation: "calm",
                 },
             }
             exclusiveSets = [
-                new Set(["north", "south", "stop"]),
-                new Set(["east", "west", "stop"]),
-                new Set(["up", "down", "stop"]),
-                new Set(["clockwise", "counter", "stop"])
+                new Set(["north", "south", "stop", "home"]),
+                new Set(["east", "west", "stop", "home"]),
+                new Set(["up", "down", "stop", "home"]),
+                new Set(["clockwise", "counter", "stop"]),
+                new Set(["alarm", "clear"]),
+                new Set(["veil", "unveil"]),
+                new Set(["storm", "calm"]),
             ]
 
             function inPlaceDifference(left, right) {
