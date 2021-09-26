@@ -3,12 +3,32 @@
     <head>
         <meta charset="utf-8"/>
         <title>Cloud Castle</title>
-        <script>
-            const activated = []
-            function update() {
-
+        <style>
+            body {
+                background-image: url("airForce.jpg");
+                text-align: center;
+                font-family: fantasy;
             }
-            data = {
+            div {
+                border: 1px solid black;
+                display: inline-block;
+                margin: 5px;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+                font-size: 20pt;
+                vertical-align: middle;
+                font-weight: bold;
+                text-shadow:
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px 1px 0 #000;
+            }
+        </style>
+        <script>
+            let activated = new Set(["stop"]);
+            const data = {
                 north: {
                     language: "dwarf",
                     text: "ᚾᛟᚱᚦ",
@@ -25,14 +45,48 @@
                     translation: "Stop",
                 },
             }
-            exclusiveSets = ["north", "south", "stop"]
-            function activate() {
-                alert('activated')
+            exclusiveSets = [
+                new Set(["north", "south", "stop"]),
+            ]
+
+            function inPlaceDifference(left, right) {
+                for (const item of right) {
+                    left.delete(item);
+                }
+            }
+            function setDifference(left, right) {
+                const difference = new Set(left);
+            }
+            function activate(pressed) {
+                for (const set of exclusiveSets) {
+                    if (set.has(pressed)) {
+                        inPlaceDifference(activated, set);
+                    }
+                }
+                activated.add(pressed);
+                update();
+            }
+            function setup() {
+                for (const id in data) {
+                    const div = document.createElement("div");
+                    div.id = id;
+                    div.innerText = data[id].text;
+                    div.addEventListener('click', () => activate(id));
+                    document.body.appendChild(div);
+                }
+                update();
+            }
+
+            function update() {
+                for (const id in data) {
+                    document.getElementById(id).style.color = activated.has(id) ? "green" : "blue";
+                }
             }
         </script>
     </head>
     <body>
-        <div id="north" onclick="activate"></div>
-        <div id="south"></div>
     </body>
+    <script>
+        setup();
+    </script>
 </html>
