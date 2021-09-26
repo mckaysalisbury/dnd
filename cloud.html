@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Cloud Castle</title>
+        <script>
+            const activated = []
+            function update() {
+
+            }
+            data = {
+                north: {
+                    language: "dwarf",
+                    text: "ᚾᛟᚱᚦ",
+                    translation: "North",
+                },
+                south: {
+                    language: "dwarf",
+                    text: "ᛋᛟᚢᚦ",
+                    translation: "North",
+                },
+                stop: {
+                    language: "dwarf",
+                    text: "ᛥᛟᛈ",
+                    translation: "Stop",
+                },
+            }
+            exclusiveSets = ["north", "south", "stop"]
+            function activate() {
+                alert('activated')
+            }
+        </script>
+    </head>
+    <body>
+        <div id="north" onclick="activate"></div>
+        <div id="south"></div>
+    </body>
+</html>
