@@ -8,15 +8,16 @@
                 background-image: url("airForce.jpg");
                 text-align: center;
                 font-family: fantasy;
+                width: 699px;
             }
             div {
                 border: 1px solid black;
                 display: inline-block;
                 margin: 5px;
-                width: 100px;
-                height: 100px;
-                line-height: 100px;
-                font-size: 20pt;
+                width: 200px;
+                height: 200px;
+                line-height: 200px;
+                font-size: 40pt;
                 vertical-align: middle;
                 font-weight: bold;
                 text-shadow:
@@ -27,31 +28,59 @@
             }
         </style>
         <script>
-            let activated = new Set(["stop"]);
+            let activated = new Set(["south", "east"]);
             const data = {
+                clockwise: {
+                    language: "dwarf",
+                    text: "ᛋᚢᚾ",
+                    translation: "Sun",
+                },
                 north: {
                     language: "dwarf",
                     text: "ᚾᛟᚱᚦ",
                     translation: "North",
+                },
+                up: {
+                    language: "dwarf",
+                    text: "ᚱᛁᛋᛠ",
+                    translation: "Rise"
+                },
+                west: {
+                    language: "dwarf",
+                    text: "ᚹᛖᛥ",
+                    translation: "West",
+                },
+                stop: {
+                    language: "dwarf",
+                    text: "ᚨᚾᛣᛟᚱ",
+                    translation: "Anchor",
+                },
+                east: {
+                    language: "dwarf",
+                    text: "ᛖᚨᛥ",
+                    translation: "East",
+                },
+                counter: {
+                    language: "dwarf",
+                    text: "ᚹᛁᛞᛞᛖᚱ",
+                    translation: "Widder"
                 },
                 south: {
                     language: "dwarf",
                     text: "ᛋᛟᚢᚦ",
                     translation: "North",
                 },
-                stop: {
+                down: {
                     language: "dwarf",
-                    text: "ᛥᛟᛈ",
-                    translation: "Stop",
+                    text: "ᛋᛁᚾᛣ",
+                    translation: "Sink"
                 },
-                east: {
-                    language: "dwarf",
-                    text: "asdfasdf",
-                    translation: "East",
-                }
             }
             exclusiveSets = [
                 new Set(["north", "south", "stop"]),
+                new Set(["east", "west", "stop"]),
+                new Set(["up", "down", "stop"]),
+                new Set(["clockwise", "counter", "stop"])
             ]
 
             function inPlaceDifference(left, right) {
