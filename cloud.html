@@ -24,11 +24,16 @@
                 font-size: 30pt;
                 vertical-align: middle;
                 /* font-weight: bold; */
-                /* text-shadow:
-                    -1px -1px 0 #000,
-                    1px -1px 0 #000,
-                    -1px 1px 0 #000,
-                    1px 1px 0 #000; */
+                text-shadow:
+                    3px 3px 0 #fff,
+                    3px 0px 0 #fff,
+                    3px -3px 0 #fff,
+                    0px -3px 0 #fff,
+                    -3px -3px 0 #fff,
+                    -3px 0px 0 #fff,
+                    -3px 3px 0 #fff,
+                    -3px 3px 0 #fff,
+                    -3px 3px 0 #fff;
             }
         </style>
         <script>
@@ -42,81 +47,97 @@
                     language: "dwarf",
                     text: "ᛋᚢᚾ",
                     translation: "Sun",
+                    message: "You feel the castle change it's movement. It appears to be rotating.",
                 },
                 north: {
                     language: "dwarf",
                     text: "ᚾᛟᚱᚦ",
                     translation: "North",
+                    message: "The castle creaks as it shifts its movement.",
                 },
                 up: {
                     language: "dwarf",
                     text: "ᚱᛁᛋᛠ",
-                    translation: "Rise"
+                    translation: "Rise",
+                    message: "You need to take a balancing step as you briefly feel heavier.",
                 },
                 home: {
                     language: "giant",
                     text: "σπίτι",
-                    translation: "Home"
+                    translation: "Home",
+                    message: "The castle shakes and twists as it changes its direction.",
                 },
                 west: {
                     language: "dwarf",
                     text: "ᚹᛖᛥ",
                     translation: "West",
+                    message: "The castle groans briefly as it moves.",
                 },
                 stop: {
                     language: "dwarf",
                     text: "ᚨᚾᛣᛟᚱ",
                     translation: "Anchor",
+                    message: "With a slight jolt, you feel the castle has come to a stop.",
                 },
                 east: {
                     language: "dwarf",
                     text: "ᛖᚨᛥ",
                     translation: "East",
+                    message: "You hear ice blocks grinding against each other as the momentum shifts.",
                 },
                 alarm: {
                     language: "giant",
                     text: "ξυπνητήρι",
-                    translation: "Alarm"
+                    translation: "Alarm",
+                    message: "You hear a loud howling wind that reverberates the entire castle, and slightly increases your anxeity.",
                 },
                 counter: {
                     language: "dwarf",
                     text: "ᚹᛁᛞᛞᛖᚱ",
-                    translation: "Widder"
+                    translation: "Widder",
+                    message: "You feel a slight dizziness as the castle begins to rotate.",
                 },
                 south: {
                     language: "dwarf",
                     text: "ᛋᛟᚢᚦ",
                     translation: "South",
+                    message: "The castle's shift in direction causes you to reactively lean to compensate.",
                 },
                 down: {
                     language: "dwarf",
                     text: "ᛋᛁᚾᛣ",
                     translation: "Sink",
+                    message: "A brief lightening to your step follows shortly after activating the rune.",
                 },
                 clear: {
                     language: "giant",
                     text: "καθαρίσετε",
                     translation: "Clear",
+                    message: "What you can best describe as a loud whisper ends the howling wind, and makes you feel less anxious.",
                 },
                 veil: {
                     language: "giant",
                     text: "πέπλο",
                     translation: "Veil",
+                    message: "Over the next minute, a thin mist gradually thickens into a heavy fog.",
                 },
                 unveil: {
                     language: "giant",
                     text: "αφαιρέσω",
                     translation: "Unveil",
+                    message: "The dense fog gradually dissipates and the air becomes clear."
                 },
                 storm: {
                     language: "giant",
                     text: "θύελλα",
                     translation: "Storm",
+                    message: "The clouds around the castle darken and churn until they become rumbling thunderclouds. As it does so you feel the power of lightning flowing through you to the point where you feel like you could unleash its fury!",
                 },
                 calm: {
                     language: "giant",
                     text: "ήρεμο",
                     translation: "Calm",
+                    message: "The thunderclouds gradually abate and the sky becomes clear."
                 },
             }
             exclusiveSets = [
@@ -138,13 +159,16 @@
                 const difference = new Set(left);
             }
             function activate(pressed) {
-                for (const set of exclusiveSets) {
-                    if (set.has(pressed)) {
-                        inPlaceDifference(activated, set);
+                if (!activated.has(pressed)) {
+                    for (const set of exclusiveSets) {
+                        if (set.has(pressed)) {
+                            inPlaceDifference(activated, set);
+                        }
                     }
+                    activated.add(pressed);
+                    update();
+                    setTimeout(() => alert(data[pressed].message));
                 }
-                activated.add(pressed);
-                update();
             }
             function setup() {
                 for (const id in data) {
