@@ -23,15 +23,19 @@
                 font-size: 30pt;
                 vertical-align: middle;
                 /* font-weight: bold; */
-                text-shadow:
+                /* text-shadow:
                     -1px -1px 0 #000,
                     1px -1px 0 #000,
                     -1px 1px 0 #000,
-                    1px 1px 0 #000;
+                    1px 1px 0 #000; */
             }
         </style>
         <script>
+            const params = new URLSearchParams(window.location.search);
+
             let activated = new Set(["south", "east", "clear", "unveil", "calm"]);
+            let heading = parseInt(params["heading"] ?? 180)
+
             const data = {
                 clockwise: {
                     language: "dwarf",
@@ -142,7 +146,6 @@
                 update();
             }
             function setup() {
-                const params = new URLSearchParams(window.location.search);
                 for (const id in data) {
                     const div = document.createElement("div");
                     div.id = id;
@@ -155,12 +158,14 @@
 
             function update() {
                 for (const id in data) {
-                    document.getElementById(id).style.color = activated.has(id) ? "green" : "blue";
+                    document.getElementById(id).style.color = activated.has(id) ? "#0f0" : "#00f";
                 }
+                document.getElementById('heading').innerText = heading;
             }
         </script>
     </head>
     <body>
+        <span id="heading" style="color:white;font-size: 5pt;">0</div>
     </body>
     <script>
         setup();
