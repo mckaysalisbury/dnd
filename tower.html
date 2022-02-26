@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-16"/>
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>Tower</title>
+        <style>
+            body {
+                background: url("airForce.jpg") no-repeat center center fixed;
+                background-size: cover;
+                background-color: rgba(0,0,0, 0.4);
+                background-blend-mode: overlay;
+                text-align: center;
+                width: 175px;
+                margin: 0 auto;
+            }
+            div {
+                /* border: 1px solid black; */
+                display: inline-block;
+                margin: 5px;
+                width: 100px;
+                height: 75px;
+                font-size: 30pt;
+                vertical-align: middle;
+                /* font-weight: bold; */
+                text-shadow: 5px 5px 5px blue;
+            }
+            .disabled {
+                text-shadow: 5px 5px 5px green;
+            }
+            #east, #west {
+                width: 75px;
+            }
+        </style>
+        <script>
+            const params = new URLSearchParams(window.location.search);
+
+            let current = "outside";
+
+            const data = {
+                audience: {
+                    text: "🪑",
+                    translation: "Audience Chamber",
+                    message: "The walls of this chamber bear exotic geometric designs representing feathers, eagles, and snakes, all rendered in a style you've never bseen before. To one side of the room a human female is sprawled face down in a pool of blood. She is dressed like a high-ranking member of the Cult of the Dragon. Two balconies appear, one on each side of the room, overlooking the chamber.",
+                },
+                west: {
+                    text: "🪑",
+                    translation: "Audience Chamber Balcony West",
+                    message: "As the new room begins to appear, you see yourselves disappearing on the platform below.",
+                    enabled: ["east", "audience"],
+                },
+                east: {
+                    text: "🪑",
+                    translation: "Audience Chamber Balcony East",
+                    message: "You are momentarily disoriented as you see yourselves fade away in the chamber below the balcony you now stand on.",
+                    enabled: ["west", "audience"]
+                },
+                closed: {
+                    text: "🪨",
+                    translation: "Closed Chambers",
+                    message: "A hallway stands before you with doors with perfectly smooth stone walls. A door is on the right. At the end of the hall, about 40 feet ahead, a passage opens up to the right.",
+                },
+                shrine: {
+                    language: "dwarf",
+                    text: "📚",
+                    translation: "Shrine",
+                    message: "The castle groans briefly as it moves.",
+                },
+                lounge: {
+                    language: "dwarf",
+                    text: "🔥",
+                    translation: "Lounge",
+                    message: "With a slight jolt, you feel the castle has come to a stop.",
+                },
+                observatory: {
+                    language: "dwarf",
+                    text: "⭐",
+                    translation: "Observatory",
+                    message: "You hear ice blocks grinding against each other as the momentum shifts.",
+                },
+                bedroom: {
+                    language: "giant",
+                    text: "🛏️",
+                    translation: "Bedroom",
+                    message: "You hear a loud howling wind that reverberates the entire castle, and slightly increases your anxeity.",
+                },
+                dungeon: {
+                    text: "⏳",
+                    translation: "Dungeon",
+                    message: "blah blah blah dungeon",
+                    enabled: () => params.has("key") && current != "dungeon",
+                },
+                sundial: {
+                    text: "📐",
+                    translation: "Sundial",
+                    message: "You feel a slight breeze around you as you are now outside. You stand in a hedge maze at a sundial, with 8 shadows coming from the dial's gnomon. Each shadow points towards a path in the maze. You see the tower to the south, but the way the paths curve, there's no way to know which path leads where.",
+                    disabled: ["dungeon"],
+                },
+            }
+            exclusiveSets = [
+                new Set(["north", "south", "stop", "home"]),
+                new Set(["east", "west", "stop", "home"]),
+                new Set(["up", "down", "stop", "home"]),
+                new Set(["clockwise", "counter", "stop", "home"]),
+                new Set(["alarm", "clear"]),
+                new Set(["veil", "unveil"]),
+                new Set(["storm", "calm"]),
+            ]
+
+            function inPlaceDifference(left, right) {
+                for (const item of right) {
+                    left.delete(item);
+                }
+            }
+            function setDifference(left, right) {
+                const difference = new Set(left);
+            }
+            function activate(pressed) {
+                current = pressed;
+                var div = document.getElementById(pressed)
+                if (div.className != "disabled") {
+                    update();
+                    setTimeout(() => alert(data[pressed].message));
+                }
+            }
+            function setup() {
+                for (const id in data) {
+                    const div = document.createElement("div");
+                    div.id = id;
+                    div.innerText = data[id].text;
+                    div.addEventListener('click', () => activate(id));
+                    document.body.appendChild(div);
+                }
+                update();
+            }
+
+            function update() {
+                for (const id in data) {
+                    var enabled = id != current;
+                    if (data[id].enabled) {
+                        if ("includes" in data[id].enabled) {
+                            enabled = data[id].enabled.includes(current);
+                        } else {
+                            enabled = data[id].enabled()
+                        }
+                    }
+                    if (data[id].disabled) {
+                        enabled = !data[id].disabled.includes(current);
+                    }
+                    document.getElementById(id).className = enabled ? null : "disabled";
+                }
+            }
+
+        </script>
+    </head>
+    <body>
+    </body>
+    <script>
+        setup();
+    </script>
+</html>
