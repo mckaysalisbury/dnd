@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>
+            A day in Chult
+        </title>
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+        <script src="https://github.mckaysalisbury.com/ListBoy/ListBoy.js"></script>
+        <script>
+            function d(size) {
+                return Math.ceil(Math.random() * size);
+            }
+            function d20() {
+                return d(20);
+            }
+            function upperTable(table, result = d20()) {
+                for (const [upper, output] of Object.entries(table)) {
+                    if (result <= upper) {
+                        if (output.call) {
+                            return output()
+                        }
+                        return output;
+                    }
+                }
+                throw `Table ${table} didn't have an entry for dice roll ${result}`;
+            }
+            function roll() {
+                encounterUpperTable = {
+                    15: "No",
+                    20: () => `Yes ${d(100)} (p193ish)`,
+                }
+                weatherUpperTable = {
+                    1: "Tropical Storm (limited travel)",
+                    4: "Heavy Rain (50ft visibility, missile ranges halved)",
+                    8: "Medium Rain (150ft visibility)",
+                    16: "Light Mist",
+                    20: "No Rain",
+                }
+                return { weather: upperTable(weatherUpperTable), encounter: upperTable(encounterUpperTable) }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>A day in Chult</h1>
+        <p>(refresh for another)</p>
+        <div id="day">
+    </body>
+    <script>
+        ListBoy.RenderTo({morning: roll(), afternoon: roll(), night: roll()}, "day")
+    </script>
+</html>
